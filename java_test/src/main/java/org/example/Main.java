@@ -15,33 +15,26 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
 
     public static void main(String[] args) {
+//         AOP 手動注入
+        NPC npc = (NPC) new LogProxy().getLogProxy(new Smith());
+        npc.talk("Geralt");
+        npc.run();
 
+//        Dependency Injection
+        Sword railGun = new LightSaber(); //定義聖劍
+        Braver ALIS = new Braver(railGun); //讓勇者使用聖劍
+        ALIS.Brave_Skill();
+        ALIS.Sword_Skill();
+        ALIS.Attack();
 
-////        Dependency Injection
-//        System.out.print("覺醒吧勇者\n");
-//        Sword railGun = new LightSaber(); //定義聖劍
-////        Sword MSowrd = new GreatSword();
-//        Braver ALIS = new Braver(railGun); //讓勇者使用聖劍
-//        ALIS.Brave_Skill();
-//        ALIS.Sword_Skill();
-//        ALIS.Attack();
-//
-////        AOP實作
-////      NPC vivaldi = (NPC) new LogProxy().getLogProxy(new Merchant());
-//        NPC Velen = (NPC) new LogProxy().getLogProxy(new Smith());
-//        Velen.talk("Geralt");
-//        Velen.run();
-//
-
+//        手動取得Beans
         ApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[] { "applicationContext.xml" });
-//
         IHello hello = (IHello) appContext.getBean("hello");
         hello.hello("John");
-//
+
         CustomerBo customer = (CustomerBo) appContext.getBean("customerBo");
         customer.addCustomer();
-//        customer.extra();
 
     }
 }

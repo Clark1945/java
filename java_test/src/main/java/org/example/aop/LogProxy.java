@@ -16,11 +16,11 @@ public class LogProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
-        System.out.println("NPC 開始行動..." + method);
+        System.out.println("NPC 開始行動..." + method.getName());
 
         Object result = method.invoke(subject, args);
 
-        System.out.println("NPC 結束行動" + method);
+        System.out.println("NPC 結束行動");
 
         return result;
     }
