@@ -45,21 +45,8 @@ public class LoggerAop {
             throw new IDNotCorrectException("不明確的來源訪問");
         }
     }
-    @Before(value = "pointcutController()")
-    public void aroleVerify(JoinPoint point) {
-
-        startTime.set(System.currentTimeMillis());
-
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String role = request.getHeader("role"); // 抓取Header
-
-        if (StringUtils.isEmpty(role)) {
-            throw new IDNotCorrectException("不明確的來源訪問");
-        }
-    }
-
     @Before(value = "pointcutAdmin()")
-    public void adminVerify(JoinPoint point) {
+    public void roleAdminVerify(JoinPoint point) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String role = request.getHeader("role") != null ? request.getHeader("role") : ""; // 抓取Header
 
