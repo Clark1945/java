@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
+import proj.java.spring.reflection.Billing;
+import proj.java.spring.reflection.SetterObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -45,7 +47,7 @@ class SpringBootApplicationTests {
     }
 
     @Test
-    public void testReflectionAdvanced() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void testReflectionAdvanced() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException { // 使用refelction 建立 Billing物件
         Billing billing = new Billing();
         int id = 1;
         String user = "Clark";
@@ -62,7 +64,8 @@ class SpringBootApplicationTests {
         SetterObject setterObject2 = new SetterObject();
         setterObject2.setColName("fee");
         setterObject2.setColValue("30");
-        setterObject2.setColType(String.class);
+        setterObject2
+                .setColType(String.class);
         List<SetterObject> arr = new ArrayList();
         arr.add(setterObject);
         arr.add(setterObject2);

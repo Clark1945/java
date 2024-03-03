@@ -8,9 +8,9 @@
 
     <aop:aspectj-autoproxy />
 
-    <bean id="customerBo" class="org.example.CustomerBoImpl" />
-    <bean id="hello" class="org.example.Smith"/>
+    <bean id="customerBo" class="org.example.javaAOP.CustomerBoImpl" />
+    <bean id="hello" class="org.example.javaAOP.Smith"/>
     <!-- Aspect -->
-    <bean id="logAspect" class="org.example.LoggingAspect" />
+    <bean id="logAspect" class="org.example.javaAOP.LoggingAspect" />
 
 </beans>

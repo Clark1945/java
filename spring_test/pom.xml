@@ -123,25 +123,6 @@
                 <dockerHost>docker-registry-default.oc.meihua.pl:5444/ac-pg-test</dockerHost>
             </properties>
         </profile>
-        <profile>
-            <id>master</id>
-            <properties>
-                <maven.test.skip>true</maven.test.skip>
-                <activatedProperties>master</activatedProperties>
-                <dockerHost>docker-registry-default.oc.meihua.pl:5444/ac-pg-test</dockerHost>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <maven.test.skip>true</maven.test.skip>
-                <activatedProperties>release</activatedProperties>
-                <dockerHost>203736743547.dkr.ecr.ap-northeast-2.amazonaws.com</dockerHost>
-            </properties>
-        </profile>
     </profiles>
 
     <build>

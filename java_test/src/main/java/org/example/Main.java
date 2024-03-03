@@ -1,14 +1,12 @@
 package org.example;
 
-import org.example.aop.LogProxy;
-import org.example.aop.Merchant;
-import org.example.aop.NPC;
 import org.example.dependencyInjection.Braver;
 import org.example.dependencyInjection.LightSaber;
 import org.example.dependencyInjection.Sword;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.javaAOP.CustomerBo;
+import org.example.javaAOP.NormalCharacter;
+import org.example.javaAOP.Smith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Field;
@@ -18,8 +16,15 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class smithClass = Class.forName("org.example.Smith");
-        Smith smith = (Smith) smithClass.newInstance(); //取得類別
+        doJavaReflection();
+        doAnotherThing();
+    }
+
+    // Java反射 練習
+    public static void doJavaReflection() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        System.out.println("Java Reflection started");
+        Class smithClass = Class.forName("org.example.javaAOP.Smith");
+        Smith smith = (Smith) smithClass.newInstance(); // 以反射取得類別
         smith.talk("Geralt");
 
         Field[] fields = smithClass.getDeclaredFields();
@@ -32,15 +37,11 @@ public class Main {
             System.out.println("method" + i + " : " + methods[i].getName());
             System.out.println("應傳入參數型別為 = " + Arrays.toString(methods[i].getGenericParameterTypes()));
         }
-//        doAnotherThing();
+
+        System.out.println("Java Reflection end");
     }
 
     private static void doAnotherThing() {
-        //         AOP 手動注入
-        NPC npc = (NPC) new LogProxy().getLogProxy(new Smith());
-        npc.talk("Geralt");
-        npc.run();
-
 //        Dependency Injection
         Sword railGun = new LightSaber(); //定義聖劍
         Braver ALIS = new Braver(railGun); //讓勇者使用聖劍
@@ -51,11 +52,10 @@ public class Main {
 //        手動取得Beans
         ApplicationContext appContext = new ClassPathXmlApplicationContext(
                 new String[]{"applicationContext.xml"});
-        NormalCharacter hello = (NormalCharacter) appContext.getBean("hello");
-        hello.talk("John");
+        NormalCharacter normalNPC = (NormalCharacter) appContext.getBean("hello");
+        normalNPC.talk("John");
 
         CustomerBo customer = (CustomerBo) appContext.getBean("customerBo");
         customer.addCustomer();
-
     }
 }
