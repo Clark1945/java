@@ -34,7 +34,9 @@ public class Main {
         Assert.hasText("Not Exist",javaOptionalTest.OpNullReturnNotExist());
         Assert.hasText("Not Exist", javaOptionalTest.OpNullReturnNotExist2());
         javaOptionalTest.OpNotNullPrintMessage();
-
+        javaOptionalTest.OptionalMapFilterTesting();
+        javaOptionalTest.OptionalMapFilterRangeTesting();
+        javaOptionalTest.Ch502();
     }
 
     private static void doDynamicProxy() {
