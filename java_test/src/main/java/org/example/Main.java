@@ -12,9 +12,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
 
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,19 +28,57 @@ public class Main {
     private static AccountDAO accountDAO;
     public static void main(String[] args) {
 //        moreGreenGrass();
+//        JavaOptionalTest javaOptionalTest = new JavaOptionalTest();
+//        Assert.isTrue(javaOptionalTest.isOpPresent());
+//        Assert.isTrue(!javaOptionalTest.isOpNullPresent());
+//        javaOptionalTest.isOpPresentThenPrint();
+//        javaOptionalTest.isOpPresentThenNotPrint();
+//        Assert.hasText("Clark",javaOptionalTest.OpReturnNotExist());
+//        Assert.hasText("Not Exist",javaOptionalTest.OpNullReturnNotExist());
+//        Assert.hasText("Not Exist", javaOptionalTest.OpNullReturnNotExist2());
+//        javaOptionalTest.OpNotNullPrintMessage();
+//        javaOptionalTest.OptionalMapFilterTesting();
+//        javaOptionalTest.OptionalMapFilterRangeTesting();
+//        javaOptionalTest.Ch502();
+        ServerSocketExample();
 
-        JavaOptionalTest javaOptionalTest = new JavaOptionalTest();
-        Assert.isTrue(javaOptionalTest.isOpPresent());
-        Assert.isTrue(!javaOptionalTest.isOpNullPresent());
-        javaOptionalTest.isOpPresentThenPrint();
-        javaOptionalTest.isOpPresentThenNotPrint();
-        Assert.hasText("Clark",javaOptionalTest.OpReturnNotExist());
-        Assert.hasText("Not Exist",javaOptionalTest.OpNullReturnNotExist());
-        Assert.hasText("Not Exist", javaOptionalTest.OpNullReturnNotExist2());
-        javaOptionalTest.OpNotNullPrintMessage();
-        javaOptionalTest.OptionalMapFilterTesting();
-        javaOptionalTest.OptionalMapFilterRangeTesting();
-        javaOptionalTest.Ch502();
+    }
+
+    private static void ServerSocketExample() {
+        final int port = 7;
+        ServerSocket serverSkt;
+        Socket skt;
+        BufferedReader sktReader;
+        String message;
+        PrintStream sktStream;
+
+        try {
+            serverSkt = new ServerSocket(port);
+
+            while(true) {
+                System.out.printf("連接埠 %d 接受連線中......%n", port);
+                skt = serverSkt.accept();
+                System.out.printf("與 %s 建立連線%n",
+                        skt.getInetAddress().toString());
+
+                sktReader = new BufferedReader(new
+                        InputStreamReader(skt.getInputStream()));
+
+                while((message = sktReader.readLine()) != null) {
+                    if(message.equals("/bye")) {
+                        System.out.println("Bye!");
+                        skt.close();
+                        break;
+                    }
+
+                    System.out.printf("Client: %s%n", message);
+                    sktStream = new PrintStream(skt.getOutputStream());
+                    sktStream.printf("echo: %s%n", message);
+                }
+            }
+        } catch(IOException e) {
+            System.out.println(e.toString());
+        }
     }
 
     private static void doDynamicProxy() {
