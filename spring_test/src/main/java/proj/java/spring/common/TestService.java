@@ -2,6 +2,7 @@ package proj.java.spring.common;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import proj.java.spring.controllerAdvice.NameNotCorrectException;
 import proj.java.spring.controllerAdvice.StringCreator;
@@ -30,9 +31,11 @@ public class TestService {
                 .orElse(new Billing());
     }
 
+    @Cacheable(cacheNames = "returnStr")
     public String getBeanDetail(String str) throws NameNotCorrectException{
+        String returnStr = str + "C";
         System.out.println("poperties testStr為 = "+ str);
-        return str.substring(1,3);
+        return returnStr;
 
     }
     private final StringCreator stringCreator;
