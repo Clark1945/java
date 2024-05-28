@@ -1,5 +1,7 @@
 package org.example.design_pattern.behavior.prototype;
 
+import java.util.ArrayList;
+
 public class Prototype {
     /*
     Prototype 原型
@@ -7,16 +9,23 @@ public class Prototype {
     繼承java.lang的Clonable介面，使用java物件的Object.clone功能
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         Smith smith = new Smith();
-        try {
+
+        ArrayList<Sword> swords = new ArrayList<Sword>();
+
+        for (int i = 0; i < 5; i++) {
             Sword sword = smith.craftSword();
-            sword.setAttack("Flame");
-            Sword copySword = smith.cloneSword(sword);
-            System.out.println(sword.getAttack());
-            System.out.println(copySword.getAttack());
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            sword.printStatus();
+            swords.add(sword);
+
+            if (sword.getAttack() > 8) {
+                System.out.println("額外製作一把");
+                Sword copySword = smith.cloneSword(sword);
+                copySword.printStatus();
+                swords.add(sword);
+            }
         }
+        System.out.println("今天總製作" + swords.size() + "把劍");
     }
 }
