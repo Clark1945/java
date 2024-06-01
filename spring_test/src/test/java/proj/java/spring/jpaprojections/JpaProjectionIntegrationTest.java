@@ -52,4 +52,14 @@ public class JpaProjectionIntegrationTest {
         assertThat(personDto.getLastName()).isEqualTo("Doe");
     }
 
+    @Test
+    public void whenUsingDynamicProjections_thenObjectWithRequiredPropertiesIsReturned() {
+        Person person = personRepository.findByLastName("Doe", Person.class);
+        PersonView personView = personRepository.findByLastName("Doe", PersonView.class);
+        PersonDto personDto = personRepository.findByLastName("Doe", PersonDto.class);
+
+        assertThat(person.getFirstName()).isEqualTo("John");
+        assertThat(personView.getFirstName()).isEqualTo("John");
+        assertThat(personDto.getFirstName()).isEqualTo("John");
+    }
 }
