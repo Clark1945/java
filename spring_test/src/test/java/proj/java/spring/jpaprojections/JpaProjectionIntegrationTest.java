@@ -33,4 +33,23 @@ public class JpaProjectionIntegrationTest {
 
     }
 
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Test
+    public void whenUsingOpenProjections_thenViewWithRequiredPropertiesIsReturned() {
+        PersonView personView = personRepository.findByLastName("Doe");
+
+        assertThat(personView.getFullName()).isEqualTo("John Doe");
+    }
+
+
+    @Test
+    public void whenUsingClassBasedProjections_thenDtoWithRequiredPropertiesIsReturned() {
+        PersonDto personDto = personRepository.findByFirstName("John");
+
+        assertThat(personDto.getFirstName()).isEqualTo("John");
+        assertThat(personDto.getLastName()).isEqualTo("Doe");
+    }
+
 }
