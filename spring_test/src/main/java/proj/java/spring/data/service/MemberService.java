@@ -1,6 +1,8 @@
 package proj.java.spring.data.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import proj.java.spring.data.dto.MemberPo;
 import proj.java.spring.data.dto.MemberDTO;
 import proj.java.spring.data.repository.MemberRepository;
@@ -48,7 +50,7 @@ public class MemberService {
         return toDto(memberRepository.save(memberPo));
     }
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void deleteByUuid(Long uuid) {
         memberRepository.deleteByUuid(uuid);
     }
