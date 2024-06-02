@@ -18,11 +18,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.5.9</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
 
@@ -123,6 +118,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.11</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -131,6 +137,12 @@
             <properties>
                 <activatedProperties>local</activatedProperties>
                 <dockerHost>docker-registry-default.oc.meihua.pl:5444/ac-pg-test</dockerHost>
+            </properties>
+        </profile>
+        <profile>
+            <id>vincentdemo</id>
+            <properties>
+                <activatedProperties>vincent</activatedProperties>
             </properties>
         </profile>
     </profiles>
