@@ -1,12 +1,14 @@
 package proj.java.spring.controllerAdvice;
 
-public class WrongHeightException extends RuntimeException{
+public class WrongHeightException extends RuntimeException {
     private final String message;
-    public WrongHeightException(String message){
-        this.message=message;
+
+    public WrongHeightException(String message) {
+        this.message = message;
     }
+
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

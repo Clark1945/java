@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomErrorController implements ErrorController { // 處理filter曾錯誤
     // 這個就是上面定義的 GlobalExceptionHandler，我們將用 DI 來注入
     private final GlobalExceptionHandler globalExceptionHandler;
-    @Autowired
+
     public CustomErrorController(GlobalExceptionHandler globalExceptionHandler) {
         this.globalExceptionHandler = globalExceptionHandler;
     }

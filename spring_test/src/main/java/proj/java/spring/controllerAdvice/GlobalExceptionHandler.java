@@ -4,10 +4,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import proj.java.spring.aop.IDNotCorrectException;
+import proj.java.spring.common.TestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestControllerAdvice
+// @RestControllerAdvice(basePackages = "package.name")
+@RestControllerAdvice(assignableTypes = TestController.class)
 @Component
 public class GlobalExceptionHandler extends Throwable {
 
