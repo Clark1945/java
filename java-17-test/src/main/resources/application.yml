@@ -1,0 +1,7 @@
+line:
+  channel-token: ${LINE_CHANNEL_TOKEN:} # 請在環境變數中設定 LINE_CHANNEL_TOKEN
+superbase:
+  secret-key: ${SUPERBASE_SECRET_KEY:} # 請在環境變數中設定 SUPERBASE_SECRET_KEY
+google:
+  credentials:
+    path: "D:/Code/secret/credentials.json" # 請將此路徑替換為您實際存放 credentials.json 的位置
