@@ -57,8 +57,8 @@ public class TodoListDrawer {
         g.dispose();
 
         // 5. 輸出圖片
-        ImageIO.write(image, "png", new File("output.png"));
-        System.out.println("已輸出：output.png");
+        ImageIO.write(image, "png", new File("/tmp/output.png"));
+        System.out.println("已輸出：/tmp/output.png");
     }
 
     // ⬇⬇⬇ 自動換行的工具方法

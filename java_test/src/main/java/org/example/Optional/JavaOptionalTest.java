@@ -1,4 +1,4 @@
-package org.example.Optional;
+package org.example.optional;
 
 import java.util.Arrays;
 import java.util.List;

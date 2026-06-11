@@ -1,16 +1,14 @@
 package org.example;
 
-import org.example.Optional.JavaOptionalTest;
-import org.example.dependencyInjection.Braver;
-import org.example.dependencyInjection.LightSaber;
-import org.example.dependencyInjection.Sword;
-import org.example.dynamicProxy.*;
-import org.example.javaAOP.CustomerBo;
-import org.example.javaAOP.NormalCharacter;
-import org.example.javaAOP.Smith;
+import org.example.dependency_injection.Braver;
+import org.example.dependency_injection.LightSaber;
+import org.example.dependency_injection.Sword;
+import org.example.dynamic_proxy.*;
+import org.example.java_aop.CustomerBo;
+import org.example.java_aop.NormalCharacter;
+import org.example.java_aop.Smith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.util.Assert;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -18,10 +16,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -42,6 +37,17 @@ public class Main {
 //        javaOptionalTest.Ch502();
 //        ServerSocketExample();
 
+        GraphBFS graph = new GraphBFS();
+
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        graph.addEdge(2, 5);
+        graph.addEdge(2, 6);
+
+        System.out.println("BFS traversal starting from node 0:");
+        graph.bfs(0);
     }
 
     private static void ServerSocketExample() {
@@ -91,7 +97,7 @@ public class Main {
     // Java反射 練習
     public static void doJavaReflection() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("Java Reflection started");
-        Class smithClass = Class.forName("org.example.javaAOP.Smith");
+        Class smithClass = Class.forName("org.example.java_aop.Smith");
         Smith smith = (Smith) smithClass.newInstance(); // 以反射取得類別
         smith.talk("Geralt");
 
@@ -186,6 +192,49 @@ public class Main {
             }
             String output = String.format("%s", printValue);
             System.out.println(output);
+        }
+    }
+}
+
+class GraphBFS {
+
+    // 使用鄰接表表示圖
+    private Map<Integer, List<Integer>> adjacencyList;
+
+    public GraphBFS() {
+        adjacencyList = new HashMap<>();
+    }
+
+    // 添加邊
+    public void addEdge(int source, int destination) {
+        adjacencyList.putIfAbsent(source, new ArrayList<>());
+        adjacencyList.putIfAbsent(destination, new ArrayList<>());
+        adjacencyList.get(source).add(destination);
+        // 如果是無向圖，加上這行
+        // adjacencyList.get(destination).add(source);
+    }
+
+    // BFS 遍歷
+    public void bfs(int startNode) {
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        // 從起始節點開始
+        queue.offer(startNode);
+        visited.add(startNode);
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            System.out.print(current + " ");
+
+            // 訪問所有相鄰節點
+            List<Integer> neighbors = adjacencyList.getOrDefault(current, new ArrayList<>());
+            for (int neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.offer(neighbor);
+                }
+            }
         }
     }
 }

@@ -14,8 +14,11 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.TasksScopes;
 import com.google.api.services.tasks.model.Task;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 
 import java.io.*;
+import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -26,6 +29,10 @@ public class GoogleTasksService {
     private static final String credentialsPath = "D:/Code/secret/credentials.json";
     private final Tasks tasks;
 
+    /**
+     * Constructor for local, interactive development (Desktop app flow).
+     * This will not work in AWS Lambda.
+     */
     public GoogleTasksService() {
         try {
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -46,7 +53,6 @@ public class GoogleTasksService {
                     .setApprovalPrompt("force")
                     .build();
 
-            // 🔥 外層只做一件事：拿「一定可用」的 Credential
             Credential credential = authorize(flow, httpTransport, jsonFactory);
 
             this.tasks = new Tasks.Builder(httpTransport, jsonFactory, credential)
@@ -57,6 +63,25 @@ public class GoogleTasksService {
             throw new RuntimeException("Failed to initialize GoogleTasksService Related object", e);
         }
     }
+
+    /**
+     * Constructor for non-interactive environments like AWS Lambda (Service Account flow).
+     * @param credentialsStream An InputStream containing the Google Service Account JSON key.
+     */
+    public GoogleTasksService(InputStream credentialsStream) throws GeneralSecurityException, IOException {
+        JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+        NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+        // Use the modern 'com.google.auth' library to load the service account
+        GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream)
+                .createScoped(Collections.singleton(TasksScopes.TASKS));
+
+        // Use an adapter to bridge the new credentials type with the older API client library
+        this.tasks = new Tasks.Builder(httpTransport, jsonFactory, new HttpCredentialsAdapter(credentials))
+                .setApplicationName(APP_NAME)
+                .build();
+    }
+
 
     private Credential authorize(
             GoogleAuthorizationCodeFlow flow,
