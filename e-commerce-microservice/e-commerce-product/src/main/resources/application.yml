@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /product-service
+
+spring:
+  application:
+    name: e-commerce-product
+
+  datasource:
+#    url: jdbc:postgresql://localhost:5432/product
+    url: jdbc:postgresql://postgres:5432/product
+    username: root1234
+    password: root1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # 開發期間可設為 update；正式環境建議改為 validate 或 none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+#      host: localhost
+      host: redis
+      port: 6379
+
+  kafka:
+#    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: product-consumer
+      auto-offset-reset: earliest
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+  config:
+#    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-server:8888
+
+logging:
+  level:
+    org.springframework: INFO
+    com.yourpackage: DEBUG
+
+mapstruct:
+  defaultComponentModel: spring
+
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+minio:
+#  endpoint: http://localhost:9000
+  endpoint: http://minio:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  image:
+    bucket: product

@@ -1,0 +1,15 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    # Not register with other eureka server
+    register-with-eureka: false
+    # Not to fetch the registry information from other Eureka server. You don't need it unless you make it as cluster.
+    fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
