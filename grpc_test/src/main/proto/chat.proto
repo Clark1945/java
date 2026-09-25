@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc.streaming";
+option java_multiple_files = true;
+
+package streaming;
+
+service ChatService {
+  rpc Chat (stream ChatMessage) returns (stream ChatMessage);
+}
+
+message ChatMessage {
+  string user = 1;
+  string text = 2;
+}

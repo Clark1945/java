@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc.wallet";
+option java_multiple_files = true;
+
+package wallet;
+
+service WalletService {
+  rpc GetBalance (BalanceRequest) returns (BalanceResponse);
+}
+
+message BalanceRequest {
+  string user_id = 1;
+}
+
+message BalanceResponse {
+  int64 balance = 1;
+  string currency = 2;
+}

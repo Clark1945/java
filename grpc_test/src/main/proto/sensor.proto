@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc.streaming";
+option java_multiple_files = true;
+
+package streaming;
+
+service SensorService {
+  rpc ReportReadings (stream SensorReading) returns (ReportSummary);
+  rpc ReportReadingsBatched (stream SensorReadingBatch) returns (ReportSummary);
+}
+
+message SensorReading {
+  string device_id = 1;
+  double value = 2;
+  int64 timestamp = 3;
+  string unit = 4;
+  string location = 5;
+  double battery_level = 6;
+  string status = 7;
+  string firmware_version = 8;
+}
+
+message SensorReadingBatch {
+  repeated SensorReading readings = 1;
+}
+
+message ReportSummary {
+  int32 count = 1;
+  double average = 2;
+}
