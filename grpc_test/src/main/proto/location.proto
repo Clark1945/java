@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc.streaming";
+option java_multiple_files = true;
+
+package streaming;
+
+service LocationService {
+  rpc StreamLocation (stream LocationUpdate) returns (stream NearbyUsers);
+}
+
+message LocationUpdate {
+  string user_id = 1;
+  double lat = 2;
+  double lng = 3;
+}
+
+message NearbyUsers {
+  repeated string user_ids = 1;
+}

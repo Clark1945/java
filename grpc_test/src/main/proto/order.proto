@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc.streaming";
+option java_multiple_files = true;
+
+package streaming;
+
+service OrderService {
+  rpc ListOrders (ListOrdersRequest) returns (stream OrderResponse);
+  rpc ListOrdersBatched (ListOrdersRequest) returns (stream OrderResponseBatch);
+}
+
+message ListOrdersRequest {
+  string user_id = 1;
+  int32 limit = 2;
+  int32 batch_size = 3;
+}
+
+message OrderResponse {
+  string order_id = 1;
+  int64 amount = 2;
+  string currency = 3;
+  string status = 4;
+  int64 created_at = 5;
+  string customer_id = 6;
+  int32 item_count = 7;
+  string shipping_address = 8;
+}
+
+message OrderResponseBatch {
+  repeated OrderResponse orders = 1;
+}

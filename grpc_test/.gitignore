@@ -1,0 +1,5 @@
+target/
+*.log
+cp.txt
+.idea/
+*.iml
